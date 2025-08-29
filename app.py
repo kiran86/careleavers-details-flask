@@ -72,23 +72,31 @@ def submit():
     # Save to database
     conn = db_connect()
     c = conn.cursor()
-    c.execute('''INSERT INTO careleavers
-              (cci_id, child_name, dob, gender, category, 
-              cwc_name, release_dt, is_sir_done, is_aftercare_trained, aftercare_training, 
-              phone_no, address)
-              VALUES (%s, %s, %s, %s, %s, 
-              %s, %s, %s, %s, %s, 
-              %s, %s);''', 
-              (cci_id, child_name, dob, gender, category,
-               cwc_name, release_date, is_sir_done, is_aftercare_trained, aftercare_training,
-               phone_no, address))
-    conn.commit()
-    conn.close()
-
-    return jsonify({
-        'status': True,
-        'message': 'Data saved successfully!'
-    })
+    try:
+        c.execute('''INSERT INTO careleavers
+                (cci_id, child_name, dob, gender, category, 
+                cwc_name, release_dt, is_sir_done, is_aftercare_trained, aftercare_training, 
+                phone_no, address)
+                VALUES (%s, %s, %s, %s, %s, 
+                %s, %s, %s, %s, %s, 
+                %s, %s);''', 
+                (cci_id, child_name, dob, gender, category,
+                cwc_name, release_date, is_sir_done, is_aftercare_trained, aftercare_training,
+                phone_no, address))
+        conn.commit()
+        return jsonify({
+            'status': True,
+            'message': 'Data saved successfully!'
+        })
+    except Exception as e:
+        conn.rollback()
+        print(e)
+        return jsonify({
+            'status': False,
+            'message': 'Error saving data: ' + str(e)
+        })
+    finally:
+        conn.close()
 
 # Route to fetch all data from database
 @app.route('/view', methods=['POST'])

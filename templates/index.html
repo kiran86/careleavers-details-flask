@@ -83,38 +83,54 @@
           </select>
         </div>
         <div class="mb-3">
-          <label for="release-dt" class="form-label">Date of Release from CCI</label>
-          <input type="date" class="form-control" id="release-dt" name="release-dt" required>
-        </div>
-        <div class="mb-3">
           <label for="authority-name" id="authority-label" class="form-label">Name of the CWC</label>
           <select class="form-select" id="authority-name" name="authority-name" required>
             <option value="">Select CWC</option>
           </select>
         </div>
         <div class="mb-3">
-          <label class="control-label">Was SIR Order Done?</label>
-          <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="is-sir-order-done-yes" name="is-sir-order-done" value="Yes">
-            <label class="form-check-label" for="is-sir-order-done-yes">Yes</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="is-sir-order-done-no" name="is-sir-order-done" value="No" checked>
-            <label class="form-check-label" for="is-sir-order-done-no">No</label>
-          </div>
+          <label for="release-dt" class="form-label">Date of Release from CCI</label>
+          <input type="date" class="form-control" id="release-dt" name="release-dt" required>
         </div>
-        <div id="sirOrderDetails" style="display: none;">
         <div class="mb-3">
-          <label class="control-label">SIR Status</label>
+          <label class="control-label">Was SIR Done?</label>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="sir-status-pending" name="sir-status" value="Pending" checked>
-            <label class="form-check-label" for="sir-status-pending">Pending</label>
+            <input type="radio" class="form-check-input" id="is-sir-done-yes" name="is-sir-done" value="Yes">
+            <label class="form-check-label" for="is-sir-done-yes">Yes</label>
           </div>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="sir-status-submitted" name="sir-status" value="Submitted">
-            <label class="form-check-label" for="sir-status-submitted">Submitted</label>
+            <input type="radio" class="form-check-input" id="is-sir-done-no" name="is-sir-done" value="No" checked>
+            <label class="form-check-label" for="is-sir-done-no">No</label>
           </div>
         </div>
+        <div class="mb-3">
+          <label for="icp-upload">Upload Last ICP</label>
+          <input type="file" class="form-control" id="icp-upload" name="icp-upload" accept=".pdf">
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Was received any Aftercare Training from CCI?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="is-aftercare-trained-yes" name="is-aftercare-trained" value="Yes">
+            <label class="form-check-label" for="is-aftercare-training-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="is-aftercare-trained-no" name="is-aftercare-trained" value="No" checked>
+            <label class="form-check-label" for="is-aftercare-training-no">No</label>
+          </div>
+        </div>
+        <div id="aftercare-training" style="display: none;">
+        <div class="mb-3">
+          <label for="aftercare-details" class="form-label">Details of Aftercare Training</label>
+          <input type="text" class="form-control" id="aftercare-details" name="aftercare-details">
+        </div>
+        </div>
+        <div class="mb-3">
+          <label for="phone-number" class="form-label">Present Phone Number</label>
+          <input type="tel" class="form-control" id="phone-number" name="phone-number">
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Present Address</label>
+          <textarea class="form-control" id="address" name="address" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
@@ -190,29 +206,19 @@
       }
     }
 
-    // Show/hide SIR Order details
-    document.getElementById('is-sir-order-done-yes').addEventListener('change', function() {
-      document.getElementById('sirOrderDetails').style.display = 'block';
-      document.getElementById('sir-order-no').setAttribute('required', 'required');
-      document.getElementById('sir-order-dt').setAttribute('required', 'required');
-      document.getElementById('sir-due-dt').setAttribute('required', 'required');
+    // Show/hide after care details
+    document.getElementById('is-aftercare-trained-yes').addEventListener('change', function() {
+      document.getElementById('aftercare-training').style.display = 'block';
+      document.getElementById('aftercare-details').setAttribute('required', true);
     });
-    document.getElementById('is-sir-order-done-no').addEventListener('change', function() {
-      document.getElementById('sirOrderDetails').style.display = 'none';
-      document.getElementById('sir-order-no').removeAttribute('required');
-      document.getElementById('sir-order-dt').removeAttribute('required');
-      document.getElementById('sir-due-dt').removeAttribute('required');
+    document.getElementById('is-aftercare-trained-no').addEventListener('change', function() {
+      document.getElementById('aftercare-training').style.display = 'none';
+      document.getElementById('aftercare-details').removeAttribute('required');
     });
 
     // Load Authority Names
     function loadAuthorities() {
       const authoritySelect = document.getElementById('authority-name');
-      const authorityLabel = document.getElementById('authority-label');
-      const placedBy = document.querySelector('input[name="placed-by"]:checked').value;
-
-      authoritySelect.innerHTML = '<option value="">Select ' + placedBy + '</option>';
-      authorityLabel.textContent = 'Name of the ' + placedBy;
-
       let authorities = [
         'Alipurduar',
         'Bankura',
@@ -236,15 +242,11 @@
         'Purba Bardhaman',
         'Purulia',
         'South 24 Parganas',
-        'Uttar Dinajpur'
+        'Uttar Dinajpur',
+        'Siliguri',
+        'Sunderban'
       ];
-
-      if (placedBy === 'CWC') {
-        authorities.push("Siliguri");
-        authorities.push("Sunderban");
-        authorities.sort();
-      }
-        
+      authorities.sort();
       authorities.forEach(authority => {
         const option = document.createElement('option');
         option.value = authority;
@@ -264,11 +266,6 @@
     // Load Districts
     fetch('/get_districts')
      .then(response => response.json())
-
-    // Add event listeners to "placed-by" radio buttons
-    document.querySelectorAll('input[name="placed-by"]').forEach(radio => {
-      radio.addEventListener('change', loadAuthorities);
-    });
 
     function loadCCIs() {
       const district = document.getElementById('district').value;

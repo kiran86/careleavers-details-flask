@@ -56,32 +56,32 @@ def home():
 def submit():
     data = request.json
     # Get form data
-    cci = data['cci']
+    cci_id = data['cci']
     child_name = data['child-name']
-    age = data['age']
+    dob = data['dob']
     gender = data['gender']
     category = data['category']
-    admission_date = data['admission-dt'] if data['admission-dt'] else None
-    order_by = data['placed-by']
-    cwc_jjb_name = data['authority-name']
-    placement_order_no = data['placement-order-no']
-    placement_order_dt = data['placement-order-dt'] if data['placement-order-dt'] else None
-    sir_order_no = data['sir-order-no']
-    sir_order_date = data['sir-order-dt'] if data['sir-order-dt'] else None
-    sir_due_date = data['sir-due-dt'] if data['sir-due-dt'] else None
-    sir_status = data['sir-status']
+    cwc_name = data['authority-name']
+    release_date = data['release-dt'] if data['release-dt'] else None
+    is_sir_done = data['is-sir-done']
+    is_aftercare_trained = data['is-aftercare-trained']
+    aftercare_training = data['aftercare-details']
+    phone_no = data['phone-number']
+    address = data['address']
 
     # Save to database
     conn = db_connect()
     c = conn.cursor()
-    c.execute('''INSERT INTO sir_pending
-              (cci_id, child_name, age, gender, category, 
-              admission_dt, order_by, cwc_jjb_name, placement_odr, placement_dt, 
-              sir_odr, sir_ord_dt, sir_due_dt, sir_status)
-              VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);''', 
-              (cci, child_name, age, gender, category,
-               admission_date, order_by, cwc_jjb_name, placement_order_no, placement_order_dt,
-               sir_order_no, sir_order_date, sir_due_date, sir_status))
+    c.execute('''INSERT INTO careleavers
+              (cci_id, child_name, dob, gender, category, 
+              cwc_name, release_dt, is_sir_done, is_aftercare_trained, aftercare_training, 
+              phone_no, address)
+              VALUES (%s, %s, %s, %s, %s, 
+              %s, %s, %s, %s, %s, 
+              %s, %s);''', 
+              (cci_id, child_name, dob, gender, category,
+               cwc_name, release_date, is_sir_done, is_aftercare_trained, aftercare_training,
+               phone_no, address))
     conn.commit()
     conn.close()
 

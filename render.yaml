@@ -1,7 +1,6 @@
 services:
   - type: web
     name: careleavers-details-flask
-    description: Care Leavers Details Flask Application
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app

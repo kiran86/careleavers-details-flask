@@ -114,12 +114,23 @@ def view():
         # Build the SQL query dynamically
         sql = """
         SELECT 
-            ROW_NUMBER() OVER(ORDER BY sir_pending.cci_id), 
+            ROW_NUMBER() OVER(ORDER BY careleavers.cci_id), 
             cci.district, 
             cci.cci_name || ' (' || cci.category || ' : ' || cci.gender || ')', 
-            sir_pending.* 
-        FROM sir_pending 
-        JOIN cci ON sir_pending.cci_id = cci.cci_id 
+            careleavers.cci_id,
+            careleavers.child_name, 
+            careleavers.gender, 
+            careleavers.dob, 
+            careleavers.category, 
+            careleavers.cwc_name, 
+            careleavers.release_dt, 
+            careleavers.is_sir_done, 
+            careleavers.is_aftercare_trained, 
+            careleavers.aftercare_training, 
+            careleavers.phone_no, 
+            careleavers.address 
+        FROM careleavers 
+        JOIN cci ON careleavers.cci_id = cci.cci_id 
         WHERE 1=1
         """
         params = []
@@ -127,7 +138,7 @@ def view():
             sql += " AND cci.district = %s"
             params.append(district)
         if cci:
-            sql += " AND sir_pending.cci_id = %s"
+            sql += " AND careleavers.cci_id = %s"
             params.append(cci)
 
         conn = db_connect()
@@ -143,17 +154,16 @@ def view():
                 'district': row[1],
                 'cci': row[2],
                 'child_name': row[4],
-                'age': row[5],
-                'gender': row[6],
+                'gender': row[5],
+                'dob': row[6].strftime('%d-%m-%Y'),
                 'category': row[7],
-                'admission_dt': row[8].strftime('%d-%m-%Y'),
-                'order_by': row[9] + ' ' + row[10],
-                'order_no': row[11],
-                'order_dt': row[12].strftime('%d-%m-%Y'),
-                'sir_order_no': row[13] if row[13] else '',
-                'sir_order_dt': row[14].strftime('%d-%m-%Y') if row[14] else '',
-                'sir_due_dt': row[15].strftime('%d-%m-%Y') if row[15] else '',
-                'sir_status': row[16]
+                'cwc_name': row[8],
+                'release_dt': row[9].strftime('%d-%m-%Y') if row[9] else '',
+                'is_sir_done': "Yes" if row[10] else "No",
+                'is_aftercare_trained': "Yes" if row[11] else "No",
+                'aftercare_training': row[12] if row[12] else '',
+                'phone_no': row[13],
+                'address': row[14]
             })
         return jsonify(data)
     except Exception as e:

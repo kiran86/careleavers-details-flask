@@ -163,17 +163,16 @@
             <th>District</th>
             <th>CCI Name</th>
             <th>Name of the Child</th>
-            <th>Age</th>
             <th>Gender</th>
+            <th>Date of Birth</th>
             <th>Category</th>
-            <th>Date of Admission</th>
-            <th>Placement Order By</th>
-            <th>Order No</th>
-            <th>Order Date</th>
-            <th>SIR Order No</th>
-            <th>SIR Order Date</th>
-            <th>SIR Due Date</th>
-            <th>SIR Status</th>
+            <th>CWC</th>
+            <th>Released from CCI</th>
+            <th>Is SIR Done?</th>
+            <th>Is Aftercare Training Done?</th>
+            <th>Trained on</th>
+            <th>Pone No.</th>
+            <th>Present Address</th>
           </tr>
         </thead>
         <tbody>
@@ -384,17 +383,16 @@
             <td>${row.district}</td>
             <td>${row.cci}</td>
             <td>${row.child_name}</td>
-            <td>${row.age}</td>
             <td>${row.gender}</td>
+            <td>${row.dob}</td>
             <td>${row.category}</td>
-            <td>${row.admission_dt}</td>
-            <td>${row.order_by}</td>
-            <td>${row.order_no}</td>
-            <td>${row.order_dt}</td>
-            <td>${row.sir_order_no}</td>
-            <td>${row.sir_order_dt}</td>
-            <td>${row.sir_due_dt}</td>
-            <td>${row.sir_status}</td>
+            <td>${row.cwc_name}</td>
+            <td>${row.release_dt}</td>
+            <td>${row.is_sir_done}</td>
+            <td>${row.is_aftercare_trained}</td>
+            <td>${row.aftercare_training}</td>
+            <td>${row.phone_no}</td>
+            <td>${row.address}</td>
           `;
           tbody.appendChild(tr);
         });

@@ -104,10 +104,6 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="icp-upload">Upload Last ICP</label>
-          <input type="file" class="form-control" id="icp-upload" name="icp-upload" accept=".pdf">
-        </div>
-        <div class="mb-3">
           <label class="control-label">Was received any Aftercare Training from CCI?</label>
           <div class="form-check form-check-inline">
             <input type="radio" class="form-check-input" id="is-aftercare-trained-yes" name="is-aftercare-trained" value="Yes">
@@ -131,6 +127,131 @@
         <div class="mb-3">
           <label for="address" class="form-label">Present Address</label>
           <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="family-bg" class="form-label">Family Background</label>
+          <select class="form-select" id="family-bg" name="family-bg" required>
+            <option value="">Select one</option>
+            <option value="Single Parents">Single Parents</option>
+            <option value="Orphan">Orphan</option>
+            <option value="Both Parents">Both Parents</option>
+            <option value="Others">Other Relatives</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="support-req" class="form-label">Are you looking for any support?</label>
+          <input type="text" class="form-control" id="support-req" name="support-req" alt="Please specify" required>
+        </div>
+        <div class="mb-3">
+          <label for="highest-education" class="form-label">Highest Educational Qualification</label>
+          <select class="form-select" id="highest-education" name="highest-education" required>
+            <option value="">Select one</option>
+            <option value="Below 10th/ Madhyamik">Below 10th/ Madhyamik</option>
+            <option value="10th/ Madhyamik">10th/ Madhyamik</option>
+            <option value="12th/ HS">12th/ HS</option>
+            <option value="Diploma/ ITI">Diploma/ ITI</option>
+            <option value="Graduate">Graduate</option>
+            <option value="Post Graduate">Post Graduate</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have a laptop/ desktop for work?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-laptop-yes" name="has-laptop" value="Yes">
+            <label class="form-check-label" for="has-laptop-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-laptop-no" name="has-laptop" value="No" checked>
+            <label class="form-check-label" for="has-laptop-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have Birth Certificate?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-birth-cert-yes" name="has-birth-cert" value="Yes">
+            <label class="form-check-label" for="has-birth-cert-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-birth-cert-no" name="has-birth-cert" value="No" checked>
+            <label class="form-check-label" for="has-birth-cert-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have Caste Certificate?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-caste-cert-yes" name="has-caste-cert" value="Yes">
+            <label class="form-check-label" for="has-caste-cert-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-caste-cert-no" name="has-caste-cert" value="No" checked>
+            <label class="form-check-label" for="has-caste-cert-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have the release order from CCI?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-release-order-yes" name="has-release-order" value="Yes">
+            <label class="form-check-label" for="has-release-order-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-release-order-no" name="has-release-order" value="No" checked>
+            <label class="form-check-label" for="has-release-order-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have AADHAAR Card?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-aadhaar-yes" name="has-aadhaar" value="Yes">
+            <label class="form-check-label" for="has-aadhaar-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-aadhaar-no" name="has-aadhaar" value="No" checked>
+            <label class="form-check-label" for="has-aadhaar-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have PAN Card?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-pan-yes" name="has-pan" value="Yes">
+            <label class="form-check-label" for="has-pan-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-pan-no" name="has-pan" value="No" checked>
+            <label class="form-check-label" for="has-pan-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have Voter ID Card?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-voter-yes" name="has-voter" value="Yes">
+            <label class="form-check-label" for="has-voter-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-voter-no" name="has-voter" value="No" checked>
+            <label class="form-check-label" for="has-voter-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have any Bank Account?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-bank-yes" name="has-bank" value="Yes">
+            <label class="form-check-label" for="has-bank-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-bank-no" name="has-bank" value="No" checked>
+            <label class="form-check-label" for="has-bank-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Do you have Aayushman Bharat Card?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-aayushman-yes" name="has-aayushman" value="Yes">
+            <label class="form-check-label" for="has-aayushman-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-aayushman-no" name="has-aayushman" value="No" checked>
+            <label class="form-check-label" for="has-aayushman-no">No</label>
+          </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

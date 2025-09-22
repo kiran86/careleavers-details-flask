@@ -15,7 +15,7 @@ app = Flask(__name__)
 # DATABASE = os.path.join('data', 'data.db')
 
 # Supabase connection
-DATABASE_URL = os.getenv('DATABASE_URL','postgresql://postgres.duybmkpkytephxnhpdbk:b113hsDbVCgBAXYK@aws-1-ap-south-1.pooler.supabase.com:6543/postgres')
+DATABASE_URL = os.getenv('DATABASE_URL','postgresql://postgres.duybmkpkytephxnhpdbk:mq4nNpX8TtSdzgzz@aws-1-ap-south-1.pooler.supabase.com:6543/postgres')
 # Connect to the database
 def db_connect():
     conn = psycopg2.connect(DATABASE_URL)

@@ -125,8 +125,12 @@
           <input type="tel" class="form-control" id="phone-number" name="phone-number">
         </div>
         <div class="mb-3">
-          <label for="address" class="form-label">Present Address</label>
-          <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+          <label for="email" class="form-label">Email Id</label>
+          <input type="email" class="form-control" id="email" name="email">
+        </div>
+        <div class="mb-3">
+          <label for="present-addr" class="form-label">Present Address</label>
+          <textarea class="form-control" id="present-addr" name="present-addr" rows="3"></textarea>
         </div>
         <div class="mb-3">
           <label for="family-bg" class="form-label">Family Background</label>
@@ -234,11 +238,11 @@
         <div class="mb-3">
           <label class="control-label">Do you have any Bank Account?</label>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="has-bank-yes" name="has-bank" value="Yes">
+            <input type="radio" class="form-check-input" id="has-bank-yes" name="has-bank-acc" value="Yes">
             <label class="form-check-label" for="has-bank-yes">Yes</label>
           </div>
           <div class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" id="has-bank-no" name="has-bank" value="No" checked>
+            <input type="radio" class="form-check-input" id="has-bank-no" name="has-bank-acc" value="No" checked>
             <label class="form-check-label" for="has-bank-no">No</label>
           </div>
         </div>
@@ -251,6 +255,17 @@
           <div class="form-check form-check-inline">
             <input type="radio" class="form-check-input" id="has-aayushman-no" name="has-aayushman" value="No" checked>
             <label class="form-check-label" for="has-aayushman-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3" id="disability-section" style="display: none;">
+          <label class="control-label">Do you have Disability Certificate?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-disability-cert-yes" name="has-disability-cert" value="Yes">
+            <label class="form-check-label" for="has-disability-cert-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-disability-cert-no" name="has-disability-cert" value="No" checked>
+            <label class="form-check-label" for="has-disability-cert-no">No</label>
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -285,7 +300,7 @@
             <th>CCI Name</th>
             <th>Name of the Child</th>
             <th>Gender</th>
-            <th>Date of Birth</th>
+            <th>Age</th>
             <th>Category</th>
             <th>CWC</th>
             <th>Released from CCI</th>
@@ -293,7 +308,21 @@
             <th>Is Aftercare Training Done?</th>
             <th>Trained on</th>
             <th>Pone No.</th>
+            <th>Email Id</th>
             <th>Present Address</th>
+            <th>Family Background</th>
+            <th>Support Needs</th>
+            <th>Highest Education</th>
+            <th>Has Laptop/Desktop?</th>
+            <th>Has Birth Certificate?</th>
+            <th>Has Caste Certificate?</th>
+            <th>Has Release Order?</th>
+            <th>Has AADHAAR?</th>
+            <th>Has PAN?</th>
+            <th>Has Voter ID?</th>
+            <th>Has Bank Account?</th>
+            <th>Has Aayushman Bharat?</th>
+            <th>Has Disability Certificate?</th>
           </tr>
         </thead>
         <tbody>
@@ -334,6 +363,15 @@
     document.getElementById('is-aftercare-trained-no').addEventListener('change', function() {
       document.getElementById('aftercare-training').style.display = 'none';
       document.getElementById('aftercare-details').removeAttribute('required');
+    });
+
+    // Show/hide disability section based on category
+    document.getElementById('category').addEventListener('change', function() {
+      if (this.value === 'CNCP-CWSN') {
+        document.getElementById('disability-section').style.display = 'block';
+      } else {
+        document.getElementById('disability-section').style.display = 'none';
+      }
     });
 
     // Load Authority Names
@@ -505,15 +543,29 @@
             <td>${row.cci}</td>
             <td>${row.child_name}</td>
             <td>${row.gender}</td>
-            <td>${row.dob}</td>
+            <td>${row.age}</td>
             <td>${row.category}</td>
             <td>${row.cwc_name}</td>
             <td>${row.release_dt}</td>
-            <td>${row.is_sir_done}</td>
-            <td>${row.is_aftercare_trained}</td>
+            <td>${row.is_sir_done ? "Yes" : "No"}</td>
+            <td>${row.is_aftercare_trained ? "Yes" : "No"}</td>
             <td>${row.aftercare_training}</td>
             <td>${row.phone_no}</td>
-            <td>${row.address}</td>
+            <td>${row.email}</td>
+            <td>${row.present_addr}</td>
+            <td>${row.family_bg}</td>
+            <td>${row.support_needs}</td>
+            <td>${row.highest_edu}</td>
+            <td>${row.has_laptop ? "Yes" : "No"}</td>
+            <td>${row.has_birth_cert ? "Yes" : "No"}</td>
+            <td>${row.has_caste_cert ? "Yes" : "No"}</td>
+            <td>${row.has_release_order ? "Yes" : "No"}</td>
+            <td>${row.has_aadhaar ? "Yes" : "No"}</td>
+            <td>${row.has_pan ? "Yes" : "No"}</td>
+            <td>${row.has_voter ? "Yes" : "No"}</td>
+            <td>${row.has_bank_acc ? "Yes" : "No"}</td>
+            <td>${row.has_aayushman ? "Yes" : "No"}</td>
+            <td>${row.has_disability_cert ? "Yes" : "No"}</td>
           `;
           tbody.appendChild(tr);
         });

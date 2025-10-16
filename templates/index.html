@@ -89,8 +89,21 @@
           </select>
         </div>
         <div class="mb-3">
+          <label for="is-in-cci" class="form-label">Is the child living in CCI?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="is-in-cci-yes" name="is-in-cci" value="Yes" checked>
+            <label class="form-check-label" for="is-in-cci-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="is-in-cci-no" name="is-in-cci" value="No">
+            <label class="form-check-label" for="is-in-cci-no">No</label>
+          </div>
+        </div>
+        <div id="release-info" style="display: none;">
+        <div class="mb-3">
           <label for="release-dt" class="form-label">Date of Release from CCI</label>
-          <input type="date" class="form-control" id="release-dt" name="release-dt" required>
+          <input type="date" class="form-control" id="release-dt" name="release-dt">
+        </div>
         </div>
         <div class="mb-3">
           <label class="control-label">Was SIR Done?</label>
@@ -354,6 +367,16 @@
         setMaxDateInput();
       }
     }
+
+    // Show/ hide release info
+    document.getElementById('is-in-cci-no').addEventListener('change', function() {
+      document.getElementById('release-info').style.display = 'block';
+      document.getElementById('release-dt').setAttribute('required', true);
+    });
+    document.getElementById('is-in-cci-yes').addEventListener('change', function() {
+      document.getElementById('release-info').style.display = 'none';
+      document.getElementById('release-dt').removeAttribute('required');
+    });
 
     // Show/hide after care details
     document.getElementById('is-aftercare-trained-yes').addEventListener('change', function() {

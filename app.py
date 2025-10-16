@@ -251,7 +251,7 @@ def calculate_age(born):
     age_months = today.month - born.month - (today.day < born.day)
     if age_months < 0:
         age_months += 12
-    return f"{age_years} years, {age_months} months"
+    return f"{age_years}Y, {age_months}M"
 
 # Route to download the database file
 # @app.route('/download-db')

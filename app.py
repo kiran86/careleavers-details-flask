@@ -253,10 +253,60 @@ def calculate_age(born):
         age_months += 12
     return f"{age_years}Y, {age_months}M"
 
-# Route to download the database file
-# @app.route('/download-db')
-# def download_db():
-#     return send_file(DATABASE, as_attachment=True)
+# Route to download the database as excel file
+@app.route('/download-db')
+def download_db():
+    # Build the SQL query dynamically
+    sql = """
+    SELECT 
+        ROW_NUMBER() OVER(ORDER BY careleavers.cci_id) AS Sl_No, 
+        cci.district AS District, 
+        cci.cci_name || ' (' || cci.category || ' : ' || cci.gender || ')' AS CCI, 
+        careleavers.child_name AS Name,
+        careleavers.gender AS Gender,
+        AGE(careleavers.dob)::text AS Age,
+        careleavers.category AS Category,
+        careleavers.cwc_name AS CWC,
+        careleavers.release_dt AS Release_Date,
+        careleavers.is_sir_done AS Is_SIR_Done,
+        careleavers.is_aftercare_trained AS Is_Aftercare_Trained,
+        careleavers.aftercare_training AS Trainined_In,
+        careleavers.phone_no AS Phone_No,
+        careleavers.email AS Email,
+        careleavers.present_addr AS Address,
+        careleavers."family" AS Family_Type,
+        careleavers.support_needs AS Support_Needs,
+        careleavers.highest_edu AS Education_Level,
+        careleavers.having_computer AS Computer_Knowledge,
+        careleavers.having_birth_cert AS Have_Birth_Certificate,
+        careleavers.having_caste_cert AS Have_Caster_Certificate,
+        careleavers.having_release_ord AS Have_Release_Order_Copy,
+        careleavers.having_aadhaar AS Have_AADHAAR,
+        careleavers.having_pan AS Have_PAN,
+        careleavers.having_voter_id AS Have_VOTER_ID,
+        careleavers.having_bank_acc AS Have_Bank_Acc,
+        careleavers.having_aayushman AS Have_Aayushman_Card,
+        careleavers.having_disability_cert AS Have_Disability_Certificate
+    FROM careleavers 
+    JOIN cci ON careleavers.cci_id = cci.cci_id 
+    WHERE 1=1
+    """
+    try:
+        conn = db_connect()
+        c = conn.cursor(cursor_factory=RealDictCursor)
+        c.execute(sql)
+        rows = c.fetchall()
+        conn.close()
+
+        import pandas as pd
+        df = pd.DataFrame(rows)
+        file_path = 'careleavers_data.xlsx'
+        df.to_excel(file_path, index=False)
+
+        return send_file(file_path, as_attachment=True)
+    except Exception as e:
+        print(e)
+        return "Error generating Excel file", 500
 
 if __name__ == "__main__":
     app.run(debug=True)

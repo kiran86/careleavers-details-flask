@@ -89,6 +89,10 @@
           </select>
         </div>
         <div class="mb-3">
+          <label for="admission-dt" class="form-label">Date of Admission in CCI</label>
+          <input type="date" class="form-control" id="admission-dt" name="admission-dt">
+        </div>
+        <div class="mb-3">
           <label for="is-in-cci" class="form-label">Is the child living in CCI?</label>
           <div class="form-check form-check-inline">
             <input type="radio" class="form-check-input" id="is-in-cci-yes" name="is-in-cci" value="Yes" checked>
@@ -260,7 +264,7 @@
           </div>
         </div>
         <div class="mb-3">
-          <label class="control-label">Do you have Swasthya Swathi Card?</label>
+          <label class="control-label">Do you have Aayushman Bharat/ Swasthya Swathi Card?</label>
           <div class="form-check form-check-inline">
             <input type="radio" class="form-check-input" id="has-aayushman-yes" name="has-aayushman" value="Yes">
             <label class="form-check-label" for="has-aayushman-yes">Yes</label>
@@ -279,6 +283,50 @@
           <div class="form-check form-check-inline">
             <input type="radio" class="form-check-input" id="has-disability-cert-no" name="has-disability-cert" value="No" checked>
             <label class="form-check-label" for="has-disability-cert-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Received any life skill training?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-life-skill-yes" name="has-life-skill" value="Yes">
+            <label class="form-check-label" for="has-life-skill-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-life-skill-no" name="has-life-skill" value="No" checked>
+            <label class="form-check-label" for="has-life-skill-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Received any career guidance training?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-career-guidance-yes" name="has-career-guidance" value="Yes">
+            <label class="form-check-label" for="has-career-guidance-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-career-guidance-no" name="has-career-guidance" value="No" checked>
+            <label class="form-check-label" for="has-career-guidance-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Received any legal guidance training?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-legal-guidance-yes" name="has-legal-guidance" value="Yes">
+            <label class="form-check-label" for="has-legal-guidance-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-legal-guidance-no" name="has-legal-guidance" value="No" checked>
+            <label class="form-check-label" for="has-legal-guidance-no">No</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="control-label">Received any financial literacy training?</label>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-financial-lit-yes" name="has-financial-lit" value="Yes">
+            <label class="form-check-label" for="has-financial-lit-yes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" id="has-financial-lit-no" name="has-financial-lit" value="No" checked>
+            <label class="form-check-label" for="has-financial-lit-no">No</label>
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -316,6 +364,7 @@
             <th>Age</th>
             <th>Category</th>
             <th>CWC</th>
+            <th>Date of Admission in CCI</th>
             <th>Released from CCI</th>
             <th>Is SIR Done?</th>
             <th>Is Aftercare Training Done?</th>
@@ -334,8 +383,12 @@
             <th>Has PAN?</th>
             <th>Has Voter ID?</th>
             <th>Has Bank Account?</th>
-            <th>Has Aayushman Bharat?</th>
+            <th>Has Aayushman Bhara/ Swasthya Swathi Card?</th>
             <th>Has Disability Certificate?</th>
+            <th>Received Life Skill Training?</th>
+            <th>Received Career Guidance Training?</th>
+            <th>Received Legal Guidance Training?</th>
+            <th>Received Financial Literacy Training?</th>
           </tr>
         </thead>
         <tbody>
@@ -569,6 +622,7 @@
             <td>${row.age}</td>
             <td>${row.category}</td>
             <td>${row.cwc_name}</td>
+            <td>${row.admission_dt}</td>
             <td>${row.release_dt}</td>
             <td>${row.is_sir_done ? "Yes" : "No"}</td>
             <td>${row.is_aftercare_trained ? "Yes" : "No"}</td>
@@ -589,6 +643,10 @@
             <td>${row.has_bank_acc ? "Yes" : "No"}</td>
             <td>${row.has_aayushman ? "Yes" : "No"}</td>
             <td>${row.has_disability_cert ? "Yes" : "No"}</td>
+            <td>${row.has_life_skill ? "Yes" : "No"}</td>
+            <td>${row.has_career_guidance ? "Yes" : "No"}</td>
+            <td>${row.has_legal_guidance ? "Yes" : "No"}</td>
+            <td>${row.has_financial_lit ? "Yes" : "No"}</td>
           `;
           tbody.appendChild(tr);
         });

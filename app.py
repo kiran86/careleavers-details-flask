@@ -259,7 +259,8 @@ def download_db():
     # Build the SQL query dynamically
     sql = """
     SELECT 
-        ROW_NUMBER() OVER(ORDER BY careleavers.cci_id) AS Sl_No, 
+        ROW_NUMBER() OVER(ORDER BY careleavers.cci_id) AS Sl_No,
+        careleavers.timestamp,
         cci.district AS District, 
         cci.cci_name || ' (' || cci.category || ' : ' || cci.gender || ')' AS CCI, 
         careleavers.child_name AS Name,

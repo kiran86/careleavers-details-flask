@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, send_file
-from datetime import datetime
-import sqlite3
+from flask import Flask, g, render_template, request, jsonify, send_file
+from datetime import datetime, date
 import os
+import io
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -21,20 +22,28 @@ DATABASE_URL = os.getenv(
 )
 
 
-# Connect to the database
-def db_connect():
-    conn = psycopg2.connect(DATABASE_URL)
-    return conn
+def get_db():
+    """Opens a new database connection if there is none yet for the current application context."""
+    if "db" not in g:
+        g.db = psycopg2.connect(DATABASE_URL)
+    return g.db
+
+
+@app.teardown_appcontext
+def close_db(e=None):
+    """Closes the database again at the end of the request."""
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
 
 
 # Get a list of districts
 def get_districts():
-    conn = db_connect()
+    conn = get_db()
     c = conn.cursor()
     c.execute("SELECT DISTINCT district FROM cci ORDER BY district;")
     rows = c.fetchall()
     districts = [row[0] for row in rows]
-    conn.close()
     # print(districts)
     return districts
 
@@ -43,7 +52,7 @@ def get_districts():
 @app.route("/get_ccis", methods=["POST"])
 def get_ccis():
     district = request.json["district"]
-    conn = db_connect()
+    conn = get_db()
     c = conn.cursor()
     c.execute(
         "SELECT cci_id, cci_name, category, gender FROM cci WHERE district = %s ORDER BY cci_name;",
@@ -51,7 +60,6 @@ def get_ccis():
     )
     rows = c.fetchall()
     ccis = [(row[0], row[1] + " (" + row[2] + ": " + row[3] + ")") for row in rows]
-    conn.close()
     # print(ccis)
     return jsonify(ccis)
 
@@ -96,7 +104,7 @@ def submit():
     has_disability_cert = data["has-disability-cert"]
 
     # Save to database
-    conn = db_connect()
+    conn = get_db()
     c = conn.cursor()
     try:
         c.execute(
@@ -135,10 +143,7 @@ def submit():
         return jsonify({"status": True, "message": "Data saved successfully!"})
     except Exception as e:
         conn.rollback()
-        print(e)
         return jsonify({"status": False, "message": "Error saving data: " + str(e)})
-    finally:
-        conn.close()
 
 
 # Route to fetch all data from database
@@ -198,11 +203,10 @@ def view():
             sql += " AND careleavers.cci_id = %s"
             params.append(cci)
 
-        conn = db_connect()
+        conn = get_db()
         c = conn.cursor()
         c.execute(sql, params)
         rows = c.fetchall()
-        conn.close()
         # print(rows)
         data = []
         for row in rows:
@@ -246,7 +250,7 @@ def view():
 
 # Helper function to calculate age in years and months
 def calculate_age(born):
-    today = datetime.today()
+    today = date.today()
     age_years = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
     age_months = today.month - born.month - (today.day < born.day)
     if age_months < 0:
@@ -293,18 +297,28 @@ def download_db():
     WHERE 1=1
     """
     try:
-        conn = db_connect()
+        conn = get_db()
         c = conn.cursor(cursor_factory=RealDictCursor)
         c.execute(sql)
         rows = c.fetchall()
-        conn.close()
 
-        import pandas as pd
         df = pd.DataFrame(rows)
-        file_path = 'careleavers_data.xlsx'
-        df.to_excel(file_path, index=False)
 
-        return send_file(file_path, as_attachment=True)
+        # Excel does not support timezone-aware datetimes. Convert them to naive.
+        for col in df.select_dtypes(['datetimetz']).columns:
+            df[col] = df[col].dt.tz_localize(None)
+        
+        # Create an in-memory buffer for the Excel file
+        buffer = io.BytesIO()
+        df.to_excel(buffer, index=False)
+        buffer.seek(0)
+
+        return send_file(
+            buffer,
+            as_attachment=True,
+            download_name='careleavers_data.xlsx',
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
     except Exception as e:
         print(e)
         return "Error generating Excel file", 500

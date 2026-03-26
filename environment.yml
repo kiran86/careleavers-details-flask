@@ -1,0 +1,12 @@
+name: careleavers-flask
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - flask
+  - psycopg2
+  - pandas
+  - openpyxl # Required by pandas for writing .xlsx files
+  - gunicorn # For production deployment
+  - python-dotenv # For managing environment variables in .env files
